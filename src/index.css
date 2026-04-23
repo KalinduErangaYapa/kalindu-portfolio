@@ -376,6 +376,10 @@ ul {
 }
 
 /* Contact section */
+.contact-card {
+  padding: 4rem;
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -439,6 +443,12 @@ ul {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
   }
+  .contact-card {
+    padding: 2.5rem !important;
+  }
+  .contact-grid {
+    gap: 2.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -455,5 +465,12 @@ ul {
   }
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+  .contact-card {
+    padding: 1.5rem !important;
+  }
+  .contact-item {
+    font-size: 0.85rem;
+    word-break: break-all;
   }
 }

@@ -167,8 +167,7 @@ function App() {
       <section className="section" id="contact" style={{ minHeight: '80vh' }}>
         <div className="container">
           <motion.div 
-            className="glass-card" 
-            style={{ padding: '4rem' }}
+            className="glass-card contact-card"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
