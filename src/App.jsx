@@ -6,14 +6,6 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  const handleEmailLaunch = (e) => {
-    e.preventDefault();
-    if (!formData.message) return;
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
-    window.location.href = `mailto:kalinduyapa@gmail.com?subject=${subject}&body=${body}`;
-  };
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -205,9 +197,10 @@ function App() {
                 </div>
               </div>
               
-              <form onSubmit={handleEmailLaunch} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <form action="https://formspree.io/f/mbdqqygk" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <input 
                   type="text" 
+                  name="name"
                   placeholder="Your Name" 
                   required
                   value={formData.name}
@@ -216,6 +209,7 @@ function App() {
                 />
                 <input 
                   type="email" 
+                  name="email"
                   placeholder="Your Email" 
                   required
                   value={formData.email}
@@ -223,6 +217,7 @@ function App() {
                   style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.02)', color: 'white', fontFamily: 'inherit' }}
                 />
                 <textarea 
+                  name="message"
                   placeholder="Your Message" 
                   rows="4"
                   required
