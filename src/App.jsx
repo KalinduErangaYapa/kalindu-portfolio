@@ -5,6 +5,35 @@ import { Mail, ExternalLink, Code2, Layers, Cpu, ChevronRight, Terminal, User, B
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formStatus, setFormStatus] = useState(null);
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('sending');
+    
+    try {
+      const response = await fetch("https://formspree.io/f/mbdqqygk", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setFormStatus(null), 3000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus(null), 3000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus(null), 3000);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -197,7 +226,7 @@ function App() {
                 </div>
               </div>
               
-              <form action="https://formspree.io/f/mbdqqygk" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <input 
                   type="text" 
                   name="name"
@@ -225,7 +254,14 @@ function App() {
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.02)', color: 'white', fontFamily: 'inherit', resize: 'none' }}
                 />
-                <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Send Message</button>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary" 
+                  disabled={formStatus === 'sending'}
+                  style={{ width: '100%', opacity: formStatus === 'sending' ? 0.7 : 1 }}
+                >
+                  {formStatus === 'sending' ? 'Sending...' : formStatus === 'success' ? 'Message Sent! ✅' : formStatus === 'error' ? 'Error. Try Again.' : 'Send Message'}
+                </button>
               </form>
             </div>
           </motion.div>
