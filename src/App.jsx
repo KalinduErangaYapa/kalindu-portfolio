@@ -4,6 +4,15 @@ import { Mail, ExternalLink, Code2, Layers, Cpu, ChevronRight, Terminal, User, B
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  const handleEmailLaunch = (e) => {
+    e.preventDefault();
+    if (!formData.message) return;
+    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+    window.location.href = `mailto:kalinduyapa@gmail.com?subject=${subject}&body=${body}`;
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -196,20 +205,29 @@ function App() {
                 </div>
               </div>
               
-              <form onSubmit={e => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <form onSubmit={handleEmailLaunch} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <input 
                   type="text" 
                   placeholder="Your Name" 
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
                   style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.02)', color: 'white', fontFamily: 'inherit' }}
                 />
                 <input 
                   type="email" 
                   placeholder="Your Email" 
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
                   style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.02)', color: 'white', fontFamily: 'inherit' }}
                 />
                 <textarea 
                   placeholder="Your Message" 
                   rows="4"
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
                   style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.02)', color: 'white', fontFamily: 'inherit', resize: 'none' }}
                 />
                 <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Send Message</button>
