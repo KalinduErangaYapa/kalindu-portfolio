@@ -1,11 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { Mail, ExternalLink, Code2, Layers, Cpu, ChevronRight, Terminal, User, Briefcase, Download } from 'lucide-react';
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState(null);
+
+  // Custom Cursor variables
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
+  const cursorXSpring = useSpring(mouseX, { damping: 25, stiffness: 300 });
+  const cursorYSpring = useSpring(mouseY, { damping: 25, stiffness: 300 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    const moveCursor = (e) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    if (!isMobile) {
+      window.addEventListener('mousemove', moveCursor);
+    }
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, [isMobile, mouseX, mouseY]);
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +83,44 @@ function App() {
 
   return (
     <>
+      {!isMobile && (
+        <>
+          <motion.div
+            style={{
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              border: '2px solid var(--accent-primary)',
+              pointerEvents: 'none',
+              zIndex: 9999,
+              x: cursorXSpring,
+              y: cursorYSpring,
+              marginLeft: -16,
+              marginTop: -16,
+            }}
+          />
+          <motion.div
+            style={{
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              backgroundColor: 'var(--accent-secondary)',
+              pointerEvents: 'none',
+              zIndex: 10000,
+              x: mouseX,
+              y: mouseY,
+              marginLeft: -4,
+              marginTop: -4,
+            }}
+          />
+        </>
+      )}
       <div className="bg-blobs">
         <div className="blob blob-1"></div>
         <div className="blob blob-2"></div>
