@@ -466,6 +466,13 @@ ul {
   .contact-grid {
     gap: 2.5rem;
   }
+  .blob {
+    filter: blur(40px);
+    opacity: 0.7;
+  }
+  .blob-1 { width: 300px; height: 300px; }
+  .blob-2 { width: 350px; height: 350px; }
+  .blob-3 { width: 250px; height: 250px; }
 }
 
 @media (max-width: 480px) {
