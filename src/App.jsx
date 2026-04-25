@@ -1,6 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useMotionValue, useScroll, useTransform } from 'framer-motion';
 import { Mail, ExternalLink, Code2, Layers, Cpu, ChevronRight, Terminal, User, Briefcase, Download } from 'lucide-react';
+
+function Scroll3DWrapper({ children }) {
+  const ref = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 1, 0.3]);
+
+  return (
+    <div ref={ref} style={{ perspective: "1000px", width: "100%" }}>
+      <motion.div style={{ rotateX, scale, opacity, transformStyle: "preserve-3d" }}>
+        {children}
+      </motion.div>
+    </div>
+  );
+}
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
@@ -121,16 +141,11 @@ function App() {
           />
         </>
       )}
-      <div className="bg-blobs">
-        <div className="noise-overlay"></div>
-        <div className="blob blob-1"></div>
-        <div className="blob blob-2"></div>
-        <div className="blob blob-3"></div>
-      </div>
+
 
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="container">
-          <div className="logo text-gradient">Kalindu.</div>
+          <div className="logo text-accent">Kalindu.</div>
           <div className="nav-links">
             <a href="#about" className="nav-link">About</a>
             <a href="#projects" className="nav-link">Projects</a>
@@ -141,7 +156,8 @@ function App() {
 
       {/* Hero Section */}
       <section className="section" id="home">
-        <div className="container">
+        <Scroll3DWrapper>
+          <div className="container">
           <div className="hero-container">
             <motion.div 
               initial="hidden" 
@@ -149,7 +165,7 @@ function App() {
               variants={staggerContainer}
               className="hero-content"
             >
-              <motion.p variants={fadeInUp} className="text-gradient" style={{ fontWeight: 600, fontSize: '1.2rem', marginBottom: '1rem' }}>
+              <motion.p variants={fadeInUp} className="text-accent" style={{ fontWeight: 600, fontSize: '1.2rem', marginBottom: '1rem' }}>
                 Hi there, I'm
               </motion.p>
               <motion.h1 variants={fadeInUp} className="hero-title">
@@ -178,19 +194,21 @@ function App() {
               <img src="/profile.png" alt="Kalindu Yapa" className="hero-image" />
             </motion.div>
           </div>
-        </div>
+          </div>
+        </Scroll3DWrapper>
       </section>
 
       {/* Services/Skills Section */}
       <section className="section" id="about">
-        <div className="container">
+        <Scroll3DWrapper>
+          <div className="container">
           <motion.div 
             initial="hidden" 
             whileInView="visible" 
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
           >
-            <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>My <span className="text-gradient">Expertise</span></h2>
+            <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>My <span className="text-accent">Expertise</span></h2>
             <p className="hero-subtitle">Specialized in modern web technologies and creative implementation.</p>
           </motion.div>
 
@@ -214,19 +232,21 @@ function App() {
               </motion.div>
             ))}
           </motion.div>
-        </div>
+          </div>
+        </Scroll3DWrapper>
       </section>
 
       {/* Projects Section */}
       <section className="section" id="projects">
-        <div className="container">
+        <Scroll3DWrapper>
+          <div className="container">
           <motion.div 
             initial="hidden" 
             whileInView="visible" 
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
           >
-            <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Featured <span className="text-gradient">Work</span></h2>
+            <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Featured <span className="text-accent">Work</span></h2>
             <p className="hero-subtitle">A selection of my recent creations and technical explorations.</p>
           </motion.div>
 
@@ -255,12 +275,14 @@ function App() {
               </motion.div>
             ))}
           </motion.div>
-        </div>
+          </div>
+        </Scroll3DWrapper>
       </section>
 
       {/* Contact Section */}
       <section className="section" id="contact" style={{ minHeight: '80vh' }}>
-        <div className="container">
+        <Scroll3DWrapper>
+          <div className="container">
           <motion.div 
             className="glass-card contact-card"
             initial="hidden"
@@ -270,7 +292,7 @@ function App() {
           >
             <div className="contact-grid">
               <div>
-                <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Let's Build <br/><span className="text-gradient">Together</span></h2>
+                <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Let's Build <br/><span className="text-accent">Together</span></h2>
                 <p className="project-desc" style={{ maxWidth: '400px', marginBottom: '2rem' }}>
                   Interested in collaborating or have a project in mind? Let's connect and make something amazing.
                 </p>
@@ -330,7 +352,8 @@ function App() {
               </form>
             </div>
           </motion.div>
-        </div>
+          </div>
+        </Scroll3DWrapper>
       </section>
 
       <footer className="footer">
