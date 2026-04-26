@@ -258,11 +258,33 @@ function App() {
             variants={staggerContainer}
           >
             {[
-              { title: "TBT (Text Based Ticketing) System", desc: "Full-stack ticketing management system with secure authentication, team workflows, RBAC access control, and dynamic route support.", tech: ["React", "NestJS", "MySQL", "AWS S3"] },
-              { title: "Boardima.com Web Application", desc: "Property listing web platform for finding boarding houses and apartments. Implemented core property listings and search features.", tech: ["PHP", "JavaScript", "MySQL"] },
-              { title: "Point of Sale System with AI", desc: "Retail management POS system with integrated Machine Learning models for sales forecasting and real-time inventory predictions.", tech: ["React", "Spring Boot", "Java", "Python"] },
+              { 
+                title: "TBT (Text Based Ticketing) System", 
+                desc: "Full-stack ticketing management system with secure authentication, team workflows, RBAC access control, and dynamic route support.", 
+                tech: ["React", "NestJS", "MySQL", "AWS S3"],
+                images: ["/tbt-1.png", "/tbt-2.png"]
+              },
+              { 
+                title: "Boardima.com Web Application", 
+                desc: "Property listing web platform for finding boarding houses and apartments. Implemented core property listings and search features.", 
+                tech: ["PHP", "JavaScript", "MySQL"],
+                images: ["/boardima-1.png", "/boardima-2.png"]
+              },
+              { 
+                title: "Point of Sale System with AI", 
+                desc: "Retail management POS system with integrated Machine Learning models for sales forecasting and real-time inventory predictions.", 
+                tech: ["React", "Spring Boot", "Java", "Python"],
+                images: ["/pos-1.png", "/pos-2.png", "/pos-3.png"]
+              },
             ].map((project, index) => (
               <motion.div key={index} variants={fadeInUp} className="glass-card project-card">
+                {project.images && project.images.length > 0 && (
+                  <div className="project-gallery">
+                    {project.images.map((img, imgIndex) => (
+                      <img key={imgIndex} src={img} alt={`${project.title} screenshot ${imgIndex + 1}`} className="project-screenshot" />
+                    ))}
+                  </div>
+                )}
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-desc">{project.desc}</p>
                 <div className="project-tech">
@@ -270,7 +292,6 @@ function App() {
                 </div>
                 <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
                   <a href="#" className="text-muted" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><ExternalLink size={16} /> Live Demo</a>
-                  <a href="#" className="text-muted" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}><Code2 size={16} /> Code</a>
                 </div>
               </motion.div>
             ))}
