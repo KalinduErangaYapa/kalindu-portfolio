@@ -301,6 +301,8 @@ ul {
 .project-screenshot {
   height: 180px;
   width: auto;
+  flex-shrink: 0;
+  max-width: 90vw;
   border-radius: 8px;
   border: 1px solid var(--glass-border);
   object-fit: contain;
@@ -435,6 +437,9 @@ ul {
   }
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+  .project-screenshot {
+    height: 140px;
   }
   .contact-card {
     padding: 1.5rem !important;
